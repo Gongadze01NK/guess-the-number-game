@@ -38,31 +38,34 @@ checkButton.addEventListener("click", () => {
   let inputFieldNumber = parseInt(inputField.value, 10);
 
   if (isNaN(inputFieldNumber)) {
-    massage.textContent = "⛔ Enter a number!";
+    massage.textContent = "⛔ Please enter a number!";
     return;
   }
 
-  if (randomNumber === inputFieldNumber) {
+  if (inputFieldNumber === randomNumber) {
     getHiddenNumber(randNumber);
     bodyStyle.style.backgroundColor = "green";
-    massage.textContent = "You are correct!";
+    massage.textContent = "🎯 You are correct!";
 
-    // ✅ Update high score if current is higher
+    // ✅ Update high score only if current score is higher
     if (currentScore > topScore) {
       topScore = currentScore;
       highScore.textContent = topScore;
     }
 
   } else {
+    // ✅ Closeness check
     if (Math.abs(inputFieldNumber - randomNumber) <= 2) {
       massage.textContent = "🔥 You're close!";
     } else {
       massage.textContent = "❄️ Too far!";
     }
 
-    currentScore--; // ✅ Decrease the actual score variable
+    // ✅ DECREMENT THE ACTUAL SCORE
+    currentScore--;
     justScore.textContent = currentScore;
 
+    // ✅ Game over
     if (currentScore <= 0) {
       massage.textContent = "💥 Game over!";
       checkButton.disabled = true;
