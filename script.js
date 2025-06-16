@@ -34,40 +34,41 @@ function getHiddenNumber(number){
     number.textContent = randomNumber
 }
 
-checkButton.addEventListener("click",()=>{
+checkButton.addEventListener("click", () => {
   let inputFieldNumber = parseInt(inputField.value, 10);
-  let scoreValue = parseInt(justScore.textContent, 10);
-  
-    if(randomNumber === inputFieldNumber){
-        getHiddenNumber(randNumber)
-        bodyStyle.style.backgroundColor = "green"
-        massage.textContent = "You are correct"
-        
 
-        if (currentScore > topScore) {
+  if (isNaN(inputFieldNumber)) {
+    massage.textContent = "⛔ Enter a number!";
+    return;
+  }
+
+  if (randomNumber === inputFieldNumber) {
+    getHiddenNumber(randNumber);
+    bodyStyle.style.backgroundColor = "green";
+    massage.textContent = "You are correct!";
+
+    // ✅ Update high score if current is higher
+    if (currentScore > topScore) {
       topScore = currentScore;
       highScore.textContent = topScore;
     }
 
-    }else{
-      if(Math.abs(inputFieldNumber - randomNumber) <= 2){
-        massage.textContent = "🔥 You're close!"
-        scoreValue--;
-        justScore.textContent = scoreValue;
-        
-      }else if(currentScore <= 0){
-        massage.textContent = "💥 Game over!";
-      checkButton.disabled = true;
-      }else{
-        massage.textContent = "❄️ Too far!"
-        scoreValue--;
-        justScore.textContent = scoreValue;
-        
-      }
-      
-      
+  } else {
+    if (Math.abs(inputFieldNumber - randomNumber) <= 2) {
+      massage.textContent = "🔥 You're close!";
+    } else {
+      massage.textContent = "❄️ Too far!";
     }
-})
+
+    currentScore--; // ✅ Decrease the actual score variable
+    justScore.textContent = currentScore;
+
+    if (currentScore <= 0) {
+      massage.textContent = "💥 Game over!";
+      checkButton.disabled = true;
+    }
+  }
+});
 
 resetBtn.addEventListener("click", () => {
   currentScore = 20;
